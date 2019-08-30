@@ -140,13 +140,8 @@ static int msm_comm_get_inst_load(struct msm_vidc_inst *inst,
 	}
 
 	if (is_non_realtime_session(inst) &&
-		(quirks & LOAD_CALC_IGNORE_NON_REALTIME_LOAD)) {
-		if (!inst->prop.fps) {
-			dprintk(VIDC_INFO, "%s: instance:%p prop->fps is set 0\n", __func__, inst);
-			load = 0;
-		} else
-			load = msm_comm_get_mbs_per_sec(inst) / inst->prop.fps;
-	}
+		(quirks & LOAD_CALC_IGNORE_NON_REALTIME_LOAD))
+		load = msm_comm_get_mbs_per_sec(inst) / inst->prop.fps;
 
         return load;
 }
@@ -1004,6 +999,7 @@ static void handle_session_close(enum command_response cmd, void *data)
 			dprintk(VIDC_ERR, "%s invalid params\n", __func__);
 			return;
 		}
+		msm_comm_session_clean(inst);
 		signal_session_msg_receipt(cmd, inst);
 		show_stats(inst);
 	} else {
@@ -2107,7 +2103,7 @@ static int set_output_buffers(struct msm_vidc_inst *inst,
 {
 	int rc = 0;
 	struct msm_smem *handle;
-	struct internal_buf *binfo = NULL;
+	struct internal_buf *binfo;
 	struct vidc_buffer_addr_info buffer_info = {0};
 	u32 smem_flags = 0, buffer_size;
 	struct hal_buffer_requirements *output_buf, *extradata_buf;
@@ -2202,10 +2198,10 @@ static int set_output_buffers(struct msm_vidc_inst *inst,
 	}
 	return rc;
 fail_set_buffers:
-	msm_comm_smem_free(inst, handle);
-err_no_mem:
 	kfree(binfo);
 fail_kzalloc:
+	msm_comm_smem_free(inst, handle);
+err_no_mem:
 	return rc;
 }
 
