@@ -180,6 +180,21 @@ static u8 channel_setting[][2] ={
 	{0xA3, 0x5E},
 	{0xA5, 0x34},
 };
+#elif defined(CONFIG_SEC_RUBENS_PROJECT)
+#if defined(CONFIG_SEC_RUBENSLTE_COMMON)
+static u8 channel_setting[][2] ={
+	{0x01, 0x85},
+	{0xA7, 0xC7},
+	{0xA3, 0x5E},
+	{0xA5, 0x34},
+};
+#endif /* CONFIG_SEC_RUBENSLTE_COMMON */
+static u8 channel_setting_rev1[][2] ={
+	{0x01, 0x80},
+	{0xA7, 0xC7},
+	{0xA3, 0x5E},
+	{0xA5, 0x34},
+};
 #else
 static u8 channel_setting[][2] ={
 	{0x01, 0x80},
@@ -224,12 +239,45 @@ void pwm_backlight_enable(void)
 		for (i = 0; i < ARRAY_SIZE(channel_setting) ;i++)
 			backlight_i2c_write(info->client, channel_setting[i][0], channel_setting[i][1], 1);
 	}
+#elif defined(CONFIG_SEC_RUBENS_PROJECT)
+#if defined(CONFIG_SEC_RUBENSLTE_COMMON)
+	if(system_rev) {
+		for (i = 0; i < ARRAY_SIZE(channel_setting_rev1) ;i++)
+			backlight_i2c_write(info->client, channel_setting_rev1[i][0], channel_setting_rev1[i][1], 1);
+	} else {
+		for (i = 0; i < ARRAY_SIZE(channel_setting) ;i++)
+			backlight_i2c_write(info->client, channel_setting[i][0], channel_setting[i][1], 1);
+	}
+#else
+	for (i = 0; i < ARRAY_SIZE(channel_setting_rev1) ;i++)
+		backlight_i2c_write(info->client, channel_setting_rev1[i][0], channel_setting_rev1[i][1], 1);
+#endif /* !CONFIG_SEC_RUBENSLTE_COMMON */
 #else
 	for (i = 0; i < ARRAY_SIZE(channel_setting) ;i++)
 		backlight_i2c_write(info->client, channel_setting[i][0], channel_setting[i][1], 1);
 #endif
 
 }
+
+#if defined(CONFIG_SEC_RUBENS_PROJECT)
+static u8 channel_backlight_control[][2] ={
+	{0x00, 0x00},
+};
+void pwm_backlight_control_i2c(int scaled_level)
+{
+	int i;
+	struct lp8556_backlight_info *info = pinfo;
+	channel_backlight_control[0][1] =  scaled_level;
+
+	if (!info) {
+		pr_info("%s error pinfo", __func__);
+		return ;
+	}
+
+	for (i = 0; i < ARRAY_SIZE(channel_backlight_control) ;i++)
+		backlight_i2c_write(info->client, channel_backlight_control[i][0], channel_backlight_control[i][1], 1);
+}
+#endif
 
 void pwm_backlight_disable(void)
 {

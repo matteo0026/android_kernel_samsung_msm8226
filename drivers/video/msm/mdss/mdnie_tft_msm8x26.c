@@ -41,7 +41,7 @@
 #include "mdss_dsi.h"
 #include "mdss_samsung_dsi_panel_msm8x26.h"
 #include "mdnie_tft_msm8x26.h"
-#if defined(CONFIG_MACH_MS01_EUR_3G)
+#if defined(CONFIG_MACH_MS01_EUR_3G) || defined(CONFIG_MACH_MS01_EUR_LTE)
 #include "mdnie_lite_tuning_data_ms01.h"
 #elif defined(CONFIG_SEC_MILLET_PROJECT) || defined(CONFIG_SEC_DEGAS_PROJECT)
 #include "mdnie_tft_data_millet.h"
@@ -1144,7 +1144,7 @@ static ssize_t cabc_show(struct device *dev,
 	int rc;
 	unsigned char cabc;
 	cabc = mdss_dsi_show_cabc();
-	rc = snprintf((char *)buf, sizeof(buf), "%d\n",cabc);
+	rc = snprintf((char *)buf, 1024, "%d\n",cabc);
 	pr_info("%s :[MIPI2LVDS] CABC: %d\n", __func__, cabc);
 	return rc;
 

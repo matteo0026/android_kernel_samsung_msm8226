@@ -147,6 +147,13 @@ int msm_dss_config_vreg(struct device *dev, struct dss_vreg *in_vreg,
 				curr_vreg->vreg = NULL;
 				goto vreg_get_fail;
 			}
+
+#ifdef CONFIG_FB_MSM_MIPI_MAGNA_OCTA_VIDEO_WXGA_PT_DUAL_PANEL
+			if(!strncmp(in_vreg[i].vreg_name, "vdd", 4)) {
+				pr_err("%s : VDD(L22) config(%d) skip!!\n", __func__, config);
+				continue;
+			}
+#endif
 			type = (regulator_count_voltages(curr_vreg->vreg) > 0)
 					? DSS_REG_LDO : DSS_REG_VS;
 			if (type == DSS_REG_LDO) {
@@ -166,6 +173,14 @@ int msm_dss_config_vreg(struct device *dev, struct dss_vreg *in_vreg,
 	} else {
 		for (i = num_vreg-1; i >= 0; i--) {
 			curr_vreg = &in_vreg[i];
+
+#ifdef CONFIG_FB_MSM_MIPI_MAGNA_OCTA_VIDEO_WXGA_PT_DUAL_PANEL
+			if(!strncmp(in_vreg[i].vreg_name, "vdd", 4)) {
+				pr_err("%s : VDD(L22) config(%d) skip!!\n", __func__, config);
+				continue;
+			}
+#endif
+
 			if (curr_vreg->vreg) {
 				type = (regulator_count_voltages(
 					curr_vreg->vreg) > 0)
@@ -222,6 +237,7 @@ int msm_dss_enable_vreg(struct dss_vreg *in_vreg, int num_vreg, int enable)
 #endif
 #ifdef CONFIG_FB_MSM_MIPI_MAGNA_OCTA_VIDEO_WXGA_PT_DUAL_PANEL
 			if(!strncmp(in_vreg[i].vreg_name, "vdd", 4)) {
+				pr_err("%s : VDD enable skip!!\n", __func__);
 				continue;
 			}
 #endif
@@ -272,6 +288,20 @@ int msm_dss_enable_vreg(struct dss_vreg *in_vreg, int num_vreg, int enable)
 					continue;
 				}
 #endif
+#ifdef CONFIG_FB_MSM_MIPI_MAGNA_OCTA_VIDEO_WXGA_PT_DUAL_PANEL
+				if(!strncmp(in_vreg[i].vreg_name, "vdd", 4)) {
+					pr_err("%s : VDD disable skip!!\n", __func__);
+					continue;
+				}
+#endif
+#ifdef CONFIG_MACH_KLIMT_LTE_DCM
+				/* VREG_LVS1_1P8 Always On due to Audio(MP3) Play Mute Problem */
+				if(!strncmp(in_vreg[i].vreg_name, "vdd3", 4)) {	// VREG_LVS1_1P8 1.8V
+					pr_err("%s : VDD3 disable skip!!\n", __func__);
+					continue;
+				}
+#endif
+
 				if (in_vreg[i].pre_off_sleep)
 					msleep(in_vreg[i].pre_off_sleep);
 				regulator_set_optimum_mode(in_vreg[i].vreg,

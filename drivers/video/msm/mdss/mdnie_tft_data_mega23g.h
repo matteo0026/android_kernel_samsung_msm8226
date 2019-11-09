@@ -76,7 +76,7 @@ static char STANDARD_UI_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -190,7 +190,7 @@ static char DYNAMIC_UI_2[] = {
 	0x06,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x60,	//cs gain
+	0x80,	//cs gain
 	0x01,
 };
 
@@ -421,7 +421,7 @@ char AUTO_UI_2[] = {
 	0x17,	//curve23	a
 	0x00,	//curve24	b
 	0xFF,	//curve24	a
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -540,7 +540,7 @@ static char STANDARD_GALLERY_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -654,7 +654,7 @@ static char DYNAMIC_GALLERY_2[] = {
 	0x17,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x60,	//cs gain
+	0x80,	//cs gain
 	0x01,
 };
 static char DYNAMIC_GALLERY_3[] = {
@@ -886,7 +886,7 @@ char AUTO_GALLERY_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -1004,7 +1004,7 @@ static char STANDARD_VIDEO_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -1119,7 +1119,7 @@ static char DYNAMIC_VIDEO_2[] = {
 	0x06,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x60,	//cs gain
+	0x80,	//cs gain
 	0x01,
 };
 
@@ -1353,7 +1353,7 @@ char AUTO_VIDEO_2[] = {
 	0x17,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -1472,7 +1472,7 @@ static char STANDARD_VT_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -1587,7 +1587,7 @@ static char DYNAMIC_VT_2[] = {
 	0x17,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x60,	//cs gain
+	0x80,	//cs gain
 	0x01,
 };
 
@@ -1820,7 +1820,7 @@ char AUTO_VT_2[] = {
 	0x20,	//curve23	a
 	0x00,	//curve24	b
 	0xFF,	//curve24	a
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -1938,7 +1938,7 @@ static char CAMERA_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -2053,7 +2053,7 @@ char AUTO_CAMERA_2[] = {
 	0x20,	//curve23	a
 	0x00,	//curve24	b
 	0xFF,	//curve24	a
-	0x40,	//cs gain	
+	0x60,	//cs gain	
 	0x01,
 };
 
@@ -2404,7 +2404,7 @@ char STANDARD_BROWSER_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -2519,7 +2519,7 @@ char DYNAMIC_BROWSER_2[] = {
 	0x17,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x60,	//cs gain
+	0x80,	//cs gain
 	0x01,
 };
 
@@ -2753,7 +2753,7 @@ char AUTO_BROWSER_2[] = {
 	0x20, //curve23 a
 	0x00, //curve24 b
 	0xFF, //curve24 a
-	0x40, //cs gain
+	0x60, //cs gain
 	0x01,
 };
 
@@ -2873,7 +2873,7 @@ char AUTO_EBOOK_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
@@ -2988,7 +2988,7 @@ char AUTO_EMAIL_2[] = {
 	0x20,	//curve23
 	0x00,	//curve24
 	0xFF,	//curve24
-	0x40,	//cs gain
+	0x60,	//cs gain
 	0x01,
 };
 
