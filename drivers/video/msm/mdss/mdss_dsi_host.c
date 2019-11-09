@@ -35,7 +35,11 @@ struct mdss_dsi_ctrl_pdata *right_ctrl_pdata;
 
 static struct mdss_dsi_ctrl_pdata *ctrl_list[DSI_CTRL_MAX];
 static struct mdss_dsi_ctrl_pdata *ctrl_backup;
+#if defined(CONFIG_FB_MSM_MDSS_MDP3) && defined(CONFIG_FB_MSM_MDSS_DSI_DBG)
+unsigned char *dsi_ctrl_base;
+#else
 static unsigned char *dsi_ctrl_base;
+#endif
 struct mdss_hw mdss_dsi0_hw = {
 	.hw_ndx = MDSS_HW_DSI0,
 	.ptr = NULL,
@@ -95,7 +99,7 @@ void mdss_dsi_ctrl_init(struct mdss_dsi_ctrl_pdata *ctrl)
 		ctrl->ndx = DSI_CTRL_1;
 	}
 
-	ctrl->panel_mode = ctrl->panel_data.panel_info.mipi.mode;
+        ctrl->panel_mode = ctrl->panel_data.panel_info.mipi.mode;
 
 	ctrl_list[ctrl->ndx] = ctrl;	/* keep it */
 
@@ -273,6 +277,8 @@ void mdss_dsi_host_init(struct mipi_panel_info *pinfo,
 
 	pinfo->rgb_swap = DSI_RGB_SWAP_RGB;
 
+	ctrl_pdata->panel_mode = pinfo->mode;
+
 	if (pinfo->mode == DSI_VIDEO_MODE) {
 		data = 0;
 		if (pinfo->pulse_mode_hsa_he)
@@ -346,7 +352,7 @@ void mdss_dsi_host_init(struct mipi_panel_info *pinfo,
 	if (ctrl_pdata->shared_pdata.broadcast_enable)
 		MIPI_OUTP(ctrl_pdata->ctrl_base + 0x3C, 0x90000000);
 	else
-#if defined(CONFIG_FB_MSM_MDSS_TC_DSI2LVDS_WXGA_PANEL)
+#if defined(CONFIG_FB_MSM_MDSS_TC_DSI2LVDS_WXGA_PANEL) || defined(CONFIG_FB_MSM_MDSS_HX8369B_TFT_VIDEO_WVGA_PT_PANEL)
 		MIPI_OUTP(ctrl_pdata->ctrl_base + 0x3C, 0x14000000);
 #else
 		MIPI_OUTP(ctrl_pdata->ctrl_base + 0x3C, 0x10000000);
@@ -850,7 +856,9 @@ int mdss_dsi_cmds_rx(struct mdss_dsi_ctrl_pdata *ctrl,
 			struct dsi_cmd_desc *cmds, int rlen)
 {
 	int data_byte, rx_byte, dlen, end;
-	int short_response, diff, pkt_size, ret = 0;
+	int short_response, pkt_size, ret = 0;
+	int diff = 0;
+
 	int i;
 	struct dsi_buf *tp, *rp;
 	char cmd;
@@ -975,7 +983,11 @@ int mdss_dsi_cmds_rx(struct mdss_dsi_ctrl_pdata *ctrl,
 		 * since rx fifo is 16 bytes, dcs header is kept at first loop,
 		 * after that dcs header lost during shift into registers
 		 */
+#if defined(CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_CMD_WQXGA_S6TNMR7_PT_PANEL)
+		dlen = mdss_dsi_cmd_dma_rx(left_ctrl_pdata, rp, rx_byte);
+#else
 		dlen = mdss_dsi_cmd_dma_rx(ctrl, rp, rx_byte);
+#endif
 
 		if (short_response)
 			break;
@@ -1043,7 +1055,7 @@ void dumpreg(void)
 	if (dsi_ctrl_base == NULL) {
 		pr_err("%s : dsi_ctrl_base is null!!..\n",__func__);
 		return;
-	}		
+	}
 
 	pr_err("%s: =============DSI Reg DUMP==============\n", __func__);
 #if defined (CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_CMD_WQHD_PT_PANEL)
@@ -1174,7 +1186,7 @@ int mdss_dsi_cmds_single_tx(struct mdss_dsi_ctrl_pdata *pdata,
 	tp->data = cmds_tx;
 	tp->len = cmd_len;
 #if defined(CONFIG_MACH_S3VE3G_EUR)
-	mdss_dsi_wait4video_eng_busy(ctrl_pdata);
+		mdss_dsi_wait4video_eng_busy(ctrl_pdata);
 #endif
 	mdss_dsi_cmd_dma_tx(ctrl_pdata, tp);
 	kfree(cmds_tx);
@@ -1210,7 +1222,6 @@ static int mdss_dsi_cmd_dma_tx(struct mdss_dsi_ctrl_pdata *ctrl,
 
 	len = ALIGN(tp->len, 4);
 	size = ALIGN(tp->len, SZ_4K);
-
 #if !defined(CONFIG_MACH_S3VE3G_EUR)
 	tp->dmap = dma_map_single(&dsi_dev, tp->data, size, DMA_TO_DEVICE);
 	if (dma_mapping_error(&dsi_dev, tp->dmap)) {
@@ -1488,11 +1499,9 @@ int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp)
 	struct dcs_cmd_req *req;
 	int ret = -EINVAL;
 
-#if defined(CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_CMD_FULL_HD_PT_PANEL) || defined (CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_CMD_WQHD_PT_PANEL)\
-	|| defined(CONFIG_FB_MSM_MIPI_SAMSUNG_YOUM_CMD_FULL_HD_PT_PANEL)
 #ifndef CONFIG_LCD_FORCE_VIDEO_MODE
-	mdss_mdp_clk_ctrl(1, false);
-#endif
+	if (ctrl->panel_mode == DSI_CMD_MODE)
+		mdss_mdp_clk_ctrl(1, false);
 #endif
 
 	mutex_lock(&ctrl->cmd_mutex);
@@ -1524,7 +1533,7 @@ int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp)
 	mdss_dsi_clk_ctrl(ctrl, 1);
 
 	if (req->flags & CMD_REQ_RX)
-		ret = mdss_dsi_cmdlist_rx(ctrl, req);
+			ret = mdss_dsi_cmdlist_rx(ctrl, req);
 #if !defined(CONFIG_MACH_S3VE3G_EUR)
 	else if (req->flags & CMD_REQ_SINGLE_TX)
 		ret = mdss_dsi_cmds_single_tx(ctrl,req->cmds,req->cmds_cnt);
@@ -1546,11 +1555,9 @@ need_lock:
 
 	mutex_unlock(&ctrl->cmd_mutex);
 
-#if defined(CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_CMD_FULL_HD_PT_PANEL) || defined(CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_CMD_WQHD_PT_PANEL)\
-	|| defined(CONFIG_FB_MSM_MIPI_SAMSUNG_YOUM_CMD_FULL_HD_PT_PANEL)
 #ifndef CONFIG_LCD_FORCE_VIDEO_MODE
-	mdss_mdp_clk_ctrl(0, false);
-#endif
+	if (ctrl->panel_mode == DSI_CMD_MODE)
+		mdss_mdp_clk_ctrl(0, false);
 #endif
 	pr_debug("%s : -- \n",__func__);
 
@@ -1603,11 +1610,11 @@ static int dsi_event_thread(void *data)
 		}
 
 		if (todo & DSI_EV_MDP_BUSY_RELEASE) {
-			spin_lock(&ctrl->mdp_lock);
+			spin_lock_irqsave(&ctrl->mdp_lock, flag);
 			ctrl->mdp_busy = false;
 			mdss_dsi_disable_irq_nosync(ctrl, DSI_MDP_TERM);
 			complete(&ctrl->mdp_comp);
-			spin_unlock(&ctrl->mdp_lock);
+			spin_unlock_irqrestore(&ctrl->mdp_lock, flag);
 
 			/* enable dsi error interrupt */
 			mdss_dsi_err_intr_ctrl(ctrl, DSI_INTR_ERROR_MASK, 1);
@@ -1679,7 +1686,7 @@ void mdss_dsi_fifo_status(struct mdss_dsi_ctrl_pdata *ctrl)
 		pr_err("%s: status=%x\n", __func__, status);
 		if (status & 0x0080)  /* CMD_DMA_FIFO_UNDERFLOW */
 			dsi_send_events(ctrl, DSI_EV_MDP_FIFO_UNDERFLOW);
-		
+
 #if defined (CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_CMD_WQHD_PT_PANEL)
 		if (status == 0x99991080) {
 			dumpreg();

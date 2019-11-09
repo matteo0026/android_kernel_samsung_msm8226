@@ -74,7 +74,11 @@ Copyright (C) 2012, Samsung Electronics. All rights reserved.
 
 /* EA8061V ldi id3 */
 #define EVT0_EA8061V_REV_A 0x82
+#define EVT2_EA8061V_REV_C 0x95
+#define EVT2_EA8061V_REV_D 0x96
+#define EVT2_EA8061V_REV_E 0x97
 #define EVT0_EA8061V_KMINI_REV_A 0x84
+#define EVT0_EA8061_HESTIA_REV_I 0x47
 
 /*
 *	From 4.8 inch model use AID function
@@ -91,7 +95,11 @@ Copyright (C) 2012, Samsung Electronics. All rights reserved.
 
 
 #define MTP_START_ADDR 0xC8
+#if defined(CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_VIDEO_HD_PANEL)
+#define LUMINANCE_MAX 75
+#else
 #define LUMINANCE_MAX 72
+#endif
 #define GAMMA_SET_MAX 33
 /*
  * Each of R, G, B have 1 count so the offset of VT is
@@ -131,7 +139,11 @@ enum {
 
 /* PANEL DEPENDENT THINGS */
 #define MAX_CANDELA 350
+#if defined(CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_VIDEO_HD_PANEL)
+#define MIN_CANDELA	2
+#else
 #define MIN_CANDELA	5
+#endif
 
 /*
 *	ID 0x20

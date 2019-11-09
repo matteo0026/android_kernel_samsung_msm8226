@@ -361,14 +361,16 @@ static int mdss_dsi_panel_registered(struct mdss_panel_data *pdata)
 	msd.ctrl_pdata = ctrl_pdata;
 
 	if(!msd.mfd) {
-		pr_info("%s mds.mfd is null!!\n",__func__);
+		pr_info("%s msd.mfd is null!!\n",__func__);
 	} else {
-		pr_info("%s mds.mfd is ok!!\n",__func__);
+		pr_info("%s msd.mfd is ok!!\n",__func__);
 	}
 
 #if defined(CONFIG_MDNIE_LITE_TUNING)
 	mdnie_lite_tuning_init(&msd);
 #endif
+	/* Set the initial state to Suspend until it is switched on */
+	msd.mfd->resume_state = MIPI_SUSPEND_STATE;
 #endif
 
 	pr_info("%s:%d, Panel registered succesfully\n", __func__, __LINE__);
@@ -411,8 +413,19 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 
 	pr_debug("%s: ctrl=%p ndx=%d\n", __func__, ctrl, ctrl->ndx);
 
+#if defined(CONFIG_FB_MSM_MDSS_MDP3)
+	mutex_lock(&msd.lock);
+#endif
+
 	if (ctrl->on_cmds.cmd_cnt)
 		mdss_dsi_panel_cmds_send(ctrl, &ctrl->on_cmds);
+
+#if defined(CONFIG_MDSS_DSI_EVENT_HANDLER_PANEL)
+#if defined(CONFIG_FB_MSM_MDSS_MDP3)
+	msd.mfd->resume_state = MIPI_RESUME_STATE;
+	mutex_unlock(&msd.lock);
+#endif
+#endif
 
 	pr_debug("%s:-\n", __func__);
 	return 0;
@@ -435,8 +448,19 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 
 	mipi  = &pdata->panel_info.mipi;
 
+#if defined(CONFIG_FB_MSM_MDSS_MDP3)
+	mutex_lock(&msd.lock);
+#endif
+
 	if (ctrl->off_cmds.cmd_cnt)
 		mdss_dsi_panel_cmds_send(ctrl, &ctrl->off_cmds);
+
+#if defined(CONFIG_MDSS_DSI_EVENT_HANDLER_PANEL)
+#if defined(CONFIG_FB_MSM_MDSS_MDP3)
+	msd.mfd->resume_state = MIPI_SUSPEND_STATE;
+	mutex_unlock(&msd.lock);
+#endif
+#endif
 
 	pr_debug("%s:-\n", __func__);
 	return 0;
@@ -945,11 +969,6 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	pinfo->mipi.t_clk_pre = (!rc ? tmp : 0x24);
 	rc = of_property_read_u32(np, "qcom,mdss-dsi-t-clk-post", &tmp);
 	pinfo->mipi.t_clk_post = (!rc ? tmp : 0x03);
-
-	pinfo->mipi.rx_eot_ignore = of_property_read_bool(np,
-		"qcom,mdss-dsi-rx-eot-ignore");
-	pinfo->mipi.tx_eot_append = of_property_read_bool(np,
-		"qcom,mdss-dsi-tx-eot-append");
 
 	rc = of_property_read_u32(np, "qcom,mdss-dsi-stream", &tmp);
 	pinfo->mipi.stream = (!rc ? tmp : 0);

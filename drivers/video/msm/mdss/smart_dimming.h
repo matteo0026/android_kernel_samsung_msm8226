@@ -16,6 +16,8 @@ struct smartdim_conf{
 struct smartdim_conf *smart_S6E3_get_conf(void);
 struct smartdim_conf *smart_S6E8FA0_get_conf(void);
 struct smartdim_conf *smart_S6E3FA0_get_conf(void);
+struct smartdim_conf *smart_S6TNMR7_get_conf(void);
+struct smartdim_conf *smart_S6E3HA1_get_conf(void);
 #if defined(CONFIG_FB_MSM_MIPI_SAMSUNG_OCTA_VIDEO_WVGA_S6E88A0_PT_PANEL)
 struct smartdim_conf *smart_S6E88A0_get_conf(void);
 #endif
