@@ -339,91 +339,77 @@ endif
 #	 dtb-$(CONFIG_ARCH_MSM8226)	+= apq8026-v2-720p-mtp.dtb
 #	 dtb-$(CONFIG_ARCH_MSM8226)	+= apq8026-v2-1080p-mtp.dtb
 #	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v1-mtp-r01.dtb
-ifeq ($(CONFIG_MACH_MILLET3G_CHN_OPEN),y)
-         dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-millet3g-chn-open-r00.dtb
-else ifeq ($(CONFIG_MACH_MILLET3G_EUR),y)
+ifeq ($(CONFIG_SEC_MILLET_PROJECT),y)
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-millet3geur-r02.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-millet3geur-r03.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-millet3geur-r04.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-millet3geur-r05.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-millet3geur-r06.dtb
-else ifeq ($(CONFIG_MACH_MILLETLTE_OPEN),y)
+	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r00.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r01.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r02.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r03.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r04.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-milletwifieur-r05.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletlte-r00.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletlte-r01.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletlte-r02.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletlte-r03.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletlte-r04.dtb
-else ifeq ($(CONFIG_MACH_MILLETLTE_ATT),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletlteatt-r00.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletlteatt-r01.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletlteatt-r02.dtb
-else ifeq ($(CONFIG_MACH_MILLETLTE_CAN),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletltecan-r01.dtb
-else ifeq ($(CONFIG_MACH_MILLETLTE_TMO),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletlte_tmo-r01.dtb
-else ifeq ($(CONFIG_MACH_MILLETLTE_VZW),y)
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletlte_tmo-r01.dtb
+else ifeq ($(CONFIG_SEC_MILLET-ALL_PROJECT),y)
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-millet3g-chn-open-r00.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletlteatt-r00.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletlteatt-r01.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletlteatt-r02.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletltecan-r01.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletltevzw-r00.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletltevzw-r01.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletltevzw-r02.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletltevzw-r03.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletltevzw-r04.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-milletltevzw-r05.dtb
-else ifeq ($(CONFIG_MACH_MILLETLTE_KOR),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletltekor-r00.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletltekor-r01.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletltekor-r02.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletltekor-r03.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-milletltekor-r04.dtb
-else ifeq ($(CONFIG_SEC_MILLETWIFI_COMMON),y)
-	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r00.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r01.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r02.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r03.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-milletwifieur-r04.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-milletwifieur-r05.dtb
-else ifeq ($(CONFIG_SEC_RUBENSWIFI_COMMON),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-rubenswifieur-r00.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-rubenswifieur-r01.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-rubenswifieur-r02.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-rubenswifieur-r03.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-rubenswifieur-r04.dtb
-else ifeq ($(CONFIG_MACH_RUBENSLTE_OPEN),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-rubenslteeur-r00.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-rubenslteeur-r01.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-rubenslteeur-r02.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-rubenslteeur-r03.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletltekor-r00.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletltekor-r01.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletltekor-r02.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletltekor-r03.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-milletltekor-r04.dtb
+else ifeq ($(CONFIG_SEC_RUBENS_PROJECT),y)
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-rubenswifieur-r02.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-rubenswifieur-r03.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-rubenswifieur-r04.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-rubenslteeur-r02.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-rubenslteeur-r03.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-rubensltekor-r00.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-rubenslteaus-r01.dtb
 else ifeq ($(CONFIG_MACH_DEGASLTE_SPR),y)
 	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-degasltespr-r00.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-degasltespr-r02.dtb
 else ifeq ($(CONFIG_MACH_DEGASLTE_VZW),y)
 	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-degasltevzw-r00.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-degasltevzw-r05.dtb
-else ifeq ($(CONFIG_MACH_MATISSE3G_OPEN),y)
+else ifeq ($(CONFIG_SEC_MATISSE_PROJECT),y)
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-matisse3g-r00.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-matisse3g-r01.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sec-matisse3g-r02.dtb
-else ifeq ($(CONFIG_SEC_MATISSEWIFI_COMMON),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-matissewifi-r00.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-matissewifi-r01.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-matissewifi-r02.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8226-sec-matissewifi-r03.dtb
-else ifeq ($(CONFIG_MACH_MATISSELTE_OPEN),y)
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-matissewifi-r00.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-matissewifi-r01.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-matissewifi-r02.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8226-sec-matissewifi-r03.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-matisselte-r00.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-matisselte-r01.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-matisselte-r02.dtb
-else ifeq ($(CONFIG_MACH_MATISSELTE_ATT),y)
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisselteatt-r00.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisselteatt-r01.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisselteatt-r02.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisselteatt-r03.dtb
-else ifeq ($(CONFIG_MACH_MATISSELTE_VZW),y)
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisseltevzw-r00.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisseltevzw-r01.dtb
-	 dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisseltevzw-r03.dtb
-else ifeq ($(CONFIG_MACH_MATISSELTE_USC),y)
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisselteusc-r00.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisselteusc-r01.dtb
-         dtb-$(CONFIG_ARCH_MSM8226)     += msm8926-sec-matisselteusc-r03.dtb
+else ifeq ($(CONFIG_SEC_MATISSE-ALL_PROJECT),y)
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisselteatt-r00.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisselteatt-r01.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisselteatt-r02.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisselteatt-r03.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisseltevzw-r00.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisseltevzw-r01.dtb
+	 dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisseltevzw-r03.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisselteusc-r00.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisselteusc-r01.dtb
+     dtb-$(CONFIG_ARCH_MSM8226) += msm8926-sec-matisselteusc-r03.dtb 
 else ifeq ($(CONFIG_SEC_AFYONLTE_COMMON),y)
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-afyonlte-r00.dtb
 	 dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-sec-afyonlte-r01.dtb
